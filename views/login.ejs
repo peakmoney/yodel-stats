@@ -1,0 +1,13 @@
+<% include header.ejs -%>
+<form id="login" action="/login" method="POST" role="form">
+  <div class="form-group">
+    <label>Username</label>
+    <input id="username_in" class="form-control" name='username' type='text' />
+  </div>
+  <div class="form-group">
+    <label>Password</label>
+    <input id="password_in" class="form-control" name='password' type='password' />
+  </div>
+  <input type='submit' class="btn btn-success" value='Login to Yodel Stats' />
+</form>
+<% include footer.ejs -%>
