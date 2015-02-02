@@ -1,57 +1,30 @@
 #!/usr/bin/env node
 
-/**
- * Module dependencies.
- */
+var app     = require('../app')
+  , debug   = require('debug')('yodel-stats:server')
+  , http    = require('http')
+  , program = require('commander');
 
-var app = require('../app');
-var debug = require('debug')('yodel-stats:server');
-var http = require('http');
+program
+  .option('-e, --environment <env>', 'Node environment')
+  .option('-p, --port <n>', 'Port to start server on', parseInt)
+  .parse(process.argv);
 
-/**
- * Get port from environment and store in Express.
- */
+if (program.environment) {
+  process.env.NODE_ENV = program.environment;
+}
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = program.port || 3000;
 app.set('port', port);
 
-/**
- * Create HTTP server.
- */
-
 var server = http.createServer(app);
-
-/**
- * Listen on provided port, on all network interfaces.
- */
-
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
-/**
- * Normalize a port into a number, string, or false.
- */
 
-function normalizePort(val) {
-  var port = parseInt(val, 10);
+require('../listeners/redis');
 
-  if (isNaN(port)) {
-    // named pipe
-    return val;
-  }
-
-  if (port >= 0) {
-    // port number
-    return port;
-  }
-
-  return false;
-}
-
-/**
- * Event listener for HTTP server "error" event.
- */
 
 function onError(error) {
   if (error.syscall !== 'listen') {
@@ -77,9 +50,6 @@ function onError(error) {
   }
 }
 
-/**
- * Event listener for HTTP server "listening" event.
- */
 
 function onListening() {
   var addr = server.address();

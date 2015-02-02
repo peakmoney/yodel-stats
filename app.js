@@ -5,6 +5,7 @@ var express      = require('express')
   , cookieParser = require('cookie-parser')
   , bodyParser   = require('body-parser')
   , session      = require('express-session')
+  , RedisStore   = require('connect-redis')(session)
   , common       = require('./common');
 
 var app = express();
@@ -14,15 +15,16 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(session({
-  secret: common.config('app').cookie_secret
-, cookie: {maxAge: 60000 * 60 * 24 * (common.config('app').cookie_expire || 1)}, // 1 Day Expiry
+  store: new RedisStore({client: common.redisSession})
+, secret: common.config('session').secret
+, resave: false
+, saveUninitialized: false
 }));
 app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
