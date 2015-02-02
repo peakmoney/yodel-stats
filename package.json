@@ -15,6 +15,7 @@
     "less-middleware": "1.0.x",
     "morgan": "~1.5.1",
     "serve-favicon": "~2.2.0",
+    "bluebird": "2.9.x",
     "redis": "0.12.x",
     "elasticsearch": "3.1.x",
     "commander": "2.6.0",

@@ -35,6 +35,13 @@ common.elasticsearch = new elasticsearch.Client({
 });
 
 
+common.renderError = function(res) {
+  return function(err) {
+    res.render('error', {pageName: 'Error'});
+    common.notifyError(err);
+  }
+}
+
 common.notifyError = function(err) {
   console.error(err);
 };
