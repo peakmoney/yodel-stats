@@ -14,6 +14,8 @@ if (program.environment) {
   process.env.NODE_ENV = program.environment;
 }
 
+
+// Start Express Server
 var port = program.port || 3000;
 app.set('port', port);
 
@@ -23,6 +25,19 @@ server.on('error', onError);
 server.on('listening', onListening);
 
 
+// Add Columns to hourly_aggregations every hour
+var HourlyAggregation = require('../models/hourly_aggregation');
+(function addColumns() {
+  HourlyAggregation.addColumns();
+  var now  = new Date().getTime()
+    , hour = 60 * 60 * 1000
+    , then = now - (now % hour) + hour;
+
+  setTimeout(addColumns, then);
+})();
+
+
+// Start Redis Listener
 require('../listeners/redis');
 
 

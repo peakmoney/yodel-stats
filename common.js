@@ -25,14 +25,10 @@ var config = common.config = function config(name, allowBlank) {
 };
 
 
+common.knex = require('knex')(config('knexfile'));
+
 common.redisSession = newRedisClient('redis_session');
 common.redisSubscriber = newRedisClient('redis_subscriber');
-
-var elasticsearch = require('elasticsearch');
-common.elasticsearch = new elasticsearch.Client({
-  host: 'localhost:9200',
-  log: 'trace'
-});
 
 
 common.renderError = function(res) {
