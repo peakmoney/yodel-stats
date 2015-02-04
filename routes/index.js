@@ -8,8 +8,9 @@ router.all('/login', function(req, res, next) {
 });
 
 router.get('/', function(req, res, next) {
-  HourlyAggregation.getDataForAction('notify', function(err, result) {
-    res.render('index', { pageName: 'Notifications Sent' });
+  HourlyAggregation.getDataForAction('notify', function(err, aggregations) {
+    if (err) { return next(err); }
+    res.render('index', { pageName: 'Notifications', aggregations: aggregations });
   });
 });
 

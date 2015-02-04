@@ -33,7 +33,7 @@ var HourlyAggregation = require('../models/hourly_aggregation');
     , hour = 60 * 60 * 1000
     , then = now - (now % hour) + hour;
 
-  setTimeout(addColumns, then);
+  // setTimeout(addColumns, then);
 })();
 
 

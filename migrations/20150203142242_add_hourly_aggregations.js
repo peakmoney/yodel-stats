@@ -7,7 +7,7 @@ exports.up = function(knex, Promise) {
       table.datetime('start_time').notNullable();
       table.tinyint('action').notNullable();
       table.integer('total').unsigned().notNullable().defaultTo(0);
-      table.integer('succesful').unsigned().notNullable().defaultTo(0);
+      table.integer('successful').unsigned().notNullable().defaultTo(0);
       table.integer('failed').unsigned().notNullable().defaultTo(0);
       table.integer('ios').unsigned().notNullable().defaultTo(0);
       table.integer('android').unsigned().notNullable().defaultTo(0);

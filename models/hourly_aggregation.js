@@ -21,7 +21,7 @@ HourlyAggregation.getDataForAction = function(action, callback) {
           action: HourlyAggregation.actions[action]
         })
         .orderBy('start_time', 'desc')
-        .limit(24)
+        .limit(12)
         .exec(callback);
 }
 
