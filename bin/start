@@ -14,6 +14,9 @@ if (program.environment) {
   process.env.NODE_ENV = program.environment;
 }
 
+var common            = require('../common')
+  , HourlyAggregation = require('../models/hourly_aggregation');
+
 
 // Start Express Server
 var port = program.port || 3000;
@@ -26,19 +29,25 @@ server.on('listening', onListening);
 
 
 // Add Columns to hourly_aggregations every hour
-var HourlyAggregation = require('../models/hourly_aggregation');
 (function addColumns() {
   HourlyAggregation.addColumns();
   var now  = new Date().getTime()
     , hour = 60 * 60 * 1000
     , then = now - (now % hour) + hour;
 
-  // setTimeout(addColumns, then);
+  setTimeout(addColumns, then - now);
 })();
 
 
-// Start Redis Listener
-require('../listeners/redis');
+// Start Redis Subscriber
+common.redisSubscriber.subscribe("yodel:events", function(err, data) {
+  if (err) { return common.notifyError(err); }
+  common.redisSubscriber.on("message", function(channel, data) {
+    if (channel == 'yodel:events') {
+      HourlyAggregation.track(JSON.parse(date));
+    }
+  });
+});
 
 
 function onError(error) {
