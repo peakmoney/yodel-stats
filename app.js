@@ -63,7 +63,28 @@ app.all('/logout', function(req, res, next) {
 app.get('/', function(req, res, next) {
   HourlyAggregation.getDataForAction('notify', function(err, aggregations) {
     if (err) { return next(err); }
-    res.render('index', { pageName: 'Notifications', aggregations: aggregations });
+    res.render('charts', { pageName: 'Notifications', aggregations: aggregations });
+  });
+});
+
+app.get('/device_creates', function(req, res, next) {
+  HourlyAggregation.getDataForAction('create_device', function(err, aggregations) {
+    if (err) { return next(err); }
+    res.render('charts', { pageName: 'Device Creates', aggregations: aggregations });
+  });
+});
+
+app.get('/device_updates', function(req, res, next) {
+  HourlyAggregation.getDataForAction('update_device', function(err, aggregations) {
+    if (err) { return next(err); }
+    res.render('charts', { pageName: 'Device Updates', aggregations: aggregations });
+  });
+});
+
+app.get('/device_deletes', function(req, res, next) {
+  HourlyAggregation.getDataForAction('delete_device', function(err, aggregations) {
+    if (err) { return next(err); }
+    res.render('charts', { pageName: 'Device Deletes', aggregations: aggregations });
   });
 });
 

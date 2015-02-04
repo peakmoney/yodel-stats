@@ -23,6 +23,17 @@
           </button>
           <a class="navbar-brand" href="/">Yodel Stats</a>
         </div>
+        <% if (pageName != 'Login') { %>
+          <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li<%=pageName == 'Notifications' ? ' class=active' : ''%>><a href="/">Notifications</a></li>
+              <li<%=pageName == 'Device Creates' ? ' class=active' : ''%>><a href="/device_creates">Device Creates</a></li>
+              <li<%=pageName == 'Device Updates' ? ' class=active' : ''%>><a href="/device_updates">Device Updates</a></li>
+              <li<%=pageName == 'Device Deletes' ? ' class=active' : ''%>><a href="/device_deletes">Device Deletes</a></li>
+            </ul>
+            <a class="logout btn btn-primary navbar-btn pull-right" href="/logout">Logout</a>
+          </div>
+        <% } %>
       </div>
     </div>
 
