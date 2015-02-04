@@ -1,17 +1,17 @@
-var express      = require('express')
-  , path         = require('path')
-  , favicon      = require('serve-favicon')
-  , logger       = require('morgan')
-  , cookieParser = require('cookie-parser')
-  , bodyParser   = require('body-parser')
-  , session      = require('express-session')
-  , RedisStore   = require('connect-redis')(session)
-  , common       = require('./common');
+var express           = require('express')
+  , path              = require('path')
+  , favicon           = require('serve-favicon')
+  , logger            = require('morgan')
+  , cookieParser      = require('cookie-parser')
+  , bodyParser        = require('body-parser')
+  , session           = require('express-session')
+  , RedisStore        = require('connect-redis')(session)
+  , common            = require('./common')
+  , HourlyAggregation = require('./models/hourly_aggregation');
 
 var app = express();
 
 
-// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -32,8 +32,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(function(req, res, next) {
   if (req.path == '/login') {
     if (req.session.login) { return res.redirect('/'); }
-    for (var k in common.config('logins')) {
-      if (req.body.username === k && req.body.password === common.config('logins')[k]) {
+    var logins = common.config('session').logins;
+    for (var k in logins) {
+      if (req.body.username === k && req.body.password === logins[k]) {
         req.session.login = true;
         return res.redirect('/');
       }
@@ -48,7 +49,24 @@ app.use(function(req, res, next) {
   }
 });
 
-app.use('/', require('./routes/index'));
+
+app.all('/login', function(req, res, next) {
+  res.render('login', { pageName: 'Login' });
+});
+
+app.all('/logout', function(req, res, next) {
+  req.session.login = false;
+  res.redirect('/login');
+});
+
+
+app.get('/', function(req, res, next) {
+  HourlyAggregation.getDataForAction('notify', function(err, aggregations) {
+    if (err) { return next(err); }
+    res.render('index', { pageName: 'Notifications', aggregations: aggregations });
+  });
+});
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

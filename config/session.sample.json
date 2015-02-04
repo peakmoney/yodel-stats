@@ -1,0 +1,8 @@
+{
+  "development": {
+    "secret": "my-sample-secret",
+    "logins": {
+      "yodel": "stats"
+    }
+  }
+}
