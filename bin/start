@@ -44,7 +44,7 @@ common.redisSubscriber.subscribe("yodel:events", function(err, data) {
   if (err) { return common.notifyError(err); }
   common.redisSubscriber.on("message", function(channel, data) {
     if (channel == 'yodel:events') {
-      HourlyAggregation.track(JSON.parse(date));
+      HourlyAggregation.track(JSON.parse(data));
     }
   });
 });

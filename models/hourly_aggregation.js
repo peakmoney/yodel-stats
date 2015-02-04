@@ -45,7 +45,7 @@ HourlyAggregation.track = function(event) {
         .catch(common.notifyError);
 
   function increment(column) {
-    updates[column] = common.knex.raw('`?` + 1', [column]);
+    updates[column] = common.knex.raw('`'+column+'` + 1');
   }
 }
 
