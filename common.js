@@ -38,6 +38,10 @@ common.renderError = function(res) {
   }
 }
 
+common.notifySocket = function(message) {
+  console.error('bad')
+}
+
 common.notifyError = function(err) {
   console.error(err);
 };

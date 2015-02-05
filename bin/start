@@ -28,6 +28,16 @@ server.on('error', onError);
 server.on('listening', onListening);
 
 
+var io = require('socket.io')(server);
+io.on('connection', function (socket) {
+  var common = require('../common');
+  common.notifySocket = function(increments) {
+    console.error('in here')
+    socket.emit('yodel:increments', increments);
+  }
+});
+
+
 // Add Columns to hourly_aggregations every hour
 (function addColumns() {
   HourlyAggregation.addColumns();

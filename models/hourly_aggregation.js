@@ -59,7 +59,9 @@ HourlyAggregation.getDataForAction = function(action, callback) {
 
 
 HourlyAggregation.track = function(event) {
-  var updates = {};
+  var updates    = {}
+    , increments = [];
+
   if (event.platform == 'ios') {
     increment('ios');
   } else if (event.platform == 'android') {
@@ -77,7 +79,10 @@ HourlyAggregation.track = function(event) {
         .limit(1)
         .catch(common.notifyError);
 
+  common.notifySocket(['increments']);
+
   function increment(column) {
+    increments.pushColumn(column);
     updates[column] = common.knex.raw('`'+column+'` + 1');
   }
 }
