@@ -67,7 +67,7 @@ app.get('/device_deletes', renderCharts('delete_device', 'Device Deletes'));
 
 function renderCharts(action, pageName) {
   return function(req, res, next) {
-    HourlyAggregation.getDataForAction('notify', function(err, data) {
+    HourlyAggregation.getDataForAction(action, function(err, data) {
       if (err) { return next(err); }
       data['pageName'] = pageName;
       data['multiTooltipTemplate'] = "<%= datasetLabel %>: <%= value %>";
