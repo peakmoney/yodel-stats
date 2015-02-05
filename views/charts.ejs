@@ -7,14 +7,14 @@
     <div class="stat col-md-6">
       <div class="name">Successful</div>
       <div class="value text-success">
-        <%=(sum24h['successful'] / sum24h['total'] * 100).toPrecision(3)%>%
+        <%= sum24h['successful'] < 1 ? 0 : (sum24h['successful'] / sum24h['total'] * 100).toPrecision(3)%>%
         <small><%=sum24h['successful']%></small>
       </div>
     </div>
     <div class="stat col-md-6">
       <div class="name">Failed</div>
       <div class="value text-danger">
-        <%=(sum24h['failed'] / sum24h['total'] * 100).toPrecision(3)%>%
+        <%= sum24h['failed'] < 1 ? 0 : (sum24h['failed'] / sum24h['total'] * 100).toPrecision(3)%>%
         <small><%=sum24h['failed']%></small>
       </div>
     </div>
@@ -24,14 +24,14 @@
     <div class="stat col-md-6">
       <div class="name">Successful</div>
       <div class="value text-success">
-        <%=(sum30d['successful'] / sum30d['total'] * 100).toPrecision(3)%>%
+        <%= sum30d['successful'] < 1 ? 0 : (sum30d['successful'] / sum30d['total'] * 100).toPrecision(3)%>%
         <small><%=sum30d['successful']%></small>
       </div>
     </div>
     <div class="stat col-md-6">
       <div class="name">Failed</div>
       <div class="value text-danger">
-        <%=(sum30d['failed'] / sum30d['total'] * 100).toPrecision(3)%>%
+        <%= sum30d['failed'] < 1 ? 0 : (sum30d['failed'] / sum30d['total'] * 100).toPrecision(3)%>%
         <small><%=sum30d['failed']%></small>
       </div>
     </div>
@@ -51,14 +51,14 @@
     <div class="stat col-md-6">
       <div class="name">Android</div>
       <div class="value text-warning">
-        <%=(sum24h['android'] / sum24h['total'] * 100).toPrecision(3)%>%
+        <%= sum24h['android'] < 1 ? 0 : (sum24h['android'] / sum24h['total'] * 100).toPrecision(3)%>%
         <small><%=sum24h['android']%></small>
       </div>
     </div>
     <div class="stat col-md-6">
       <div class="name">iOS</div>
       <div class="value text-info">
-        <%=(sum24h['ios'] / sum24h['total'] * 100).toPrecision(3)%>%
+        <%= sum24h['ios'] < 1 ? 0 : (sum24h['ios'] / sum24h['total'] * 100).toPrecision(3)%>%
         <small><%=sum24h['ios']%></small>
       </div>
     </div>
@@ -68,14 +68,14 @@
     <div class="stat col-md-6">
       <div class="name">Android</div>
       <div class="value text-warning">
-        <%=(sum30d['android'] / sum30d['total'] * 100).toPrecision(3)%>%
+        <%= sum30d['android'] < 1 ? 0 : (sum30d['android'] / sum30d['total'] * 100).toPrecision(3)%>%
         <small><%=sum30d['android']%></small>
       </div>
     </div>
     <div class="stat col-md-6">
       <div class="name">iOS</div>
       <div class="value text-info">
-        <%=(sum30d['ios'] / sum30d['total'] * 100).toPrecision(3)%>%
+        <%= sum30d['ios'] < 1 ? 0 :(sum30d['ios'] / sum30d['total'] * 100).toPrecision(3)%>%
         <small><%=sum30d['ios']%></small>
       </div>
     </div>
