@@ -204,7 +204,7 @@
   }
 
 
-  var socket = io.connect('http://localhost:3000');
+  var socket = io.connect('http://'+window.location.host);
   socket.on('yodel:increments:<%=pageName.replace(' ', '_').toLowerCase(); %>', function (increments) {
     if (increments.length > 0) {
       for (var i = 0; i < increments.length; i++) {
