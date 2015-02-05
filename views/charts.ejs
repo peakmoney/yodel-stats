@@ -71,9 +71,11 @@
 </div>
 
 <script>
-  var last12h  = <%-JSON.stringify(last12h)%>
-    , sum24h   = <%-JSON.stringify(sum24h)%>
-    , sum30d   = <%-JSON.stringify(sum30d)%>;
+  var last12h       = <%-JSON.stringify(last12h)%>
+    , sum24h        = <%-JSON.stringify(sum24h)%>
+    , sum30d        = <%-JSON.stringify(sum30d)%>
+    , successChart  = null
+    , platformChart = null;
 
   renderCharts();
   renderNumbers();
@@ -100,10 +102,11 @@
     }
   }
 
+
   function renderCharts() {
     var labels   = []
       , datasets = {}
-      , keys     = ['ios', 'android', 'successful', 'failed', 'total'];
+      , keys     = ['ios', 'android', 'successful', 'failed'];
 
     for (var i = 0; i < keys.length; i++) {
       datasets[keys[i]] = [];
@@ -117,31 +120,49 @@
       }
     }
 
-    var successChart = newChart({
-      id: "success_chart"
-    , datasets: [{
-        label: "Successful"
-      , baseColor: "0,188,140"
-      , data: datasets['successful']
-      },{
-        label: "Failed"
-      , baseColor: "231,76,60"
-      , data: datasets['failed']
-      }]
-    });
+    if (successChart && platformChart) {
+      updateDataset(successChart.datasets[0], 'successful');
+      updateDataset(successChart.datasets[1], 'failed');
+      updateDataset(platformChart.datasets[0], 'android');
+      updateDataset(platformChart.datasets[1], 'ios');
 
-    var platformChart = newChart({
-      id: "platform_chart"
-    , datasets: [{
-        label: "Android"
-      , baseColor: "243,156,18"
-      , data: datasets['android']
-      },{
-        label: "iOS"
-      , baseColor: "52,152,219"
-      , data: datasets['ios']
-      }]
-    });
+      successChart.update();
+      platformChart.update();
+
+      function updateDataset(dataset, key) {
+        for (var i = 0; i < dataset.points.length; i++) {
+          dataset.points[i].value = datasets[key][i];
+        }
+      }
+
+    } else {
+      successChart = newChart({
+        id: "success_chart"
+      , datasets: [{
+          label: "Successful"
+        , baseColor: "0,188,140"
+        , data: datasets['successful']
+        },{
+          label: "Failed"
+        , baseColor: "231,76,60"
+        , data: datasets['failed']
+        }]
+      });
+
+      platformChart = newChart({
+        id: "platform_chart"
+      , datasets: [{
+          label: "Android"
+        , baseColor: "243,156,18"
+        , data: datasets['android']
+        },{
+          label: "iOS"
+        , baseColor: "52,152,219"
+        , data: datasets['ios']
+        }]
+      });
+    }
+
 
     function newChart(opts) {
       var ctx = document.getElementById(opts.id).getContext("2d");
@@ -182,9 +203,29 @@
     }
   }
 
+
   var socket = io.connect('http://localhost:3000');
-  socket.on('yodel:increments', function (increments) {
-    console.log(increments);
+  socket.on('yodel:increments:<%=pageName.replace(' ', '_').toLowerCase(); %>', function (increments) {
+    if (increments.length > 0) {
+      for (var i = 0; i < increments.length; i++) {
+        key = increments[i];
+        last12h[0][key]++;
+        sum24h[key]++;
+        sum30d[key]++;
+      }
+    }
+    renderNumbers();
+    renderCharts();
   });
+
+
+  // Refresh at the top of each hour since we're not handling
+  //   full data refreshes with socket.io yet
+  var now  = new Date().getTime()
+    , hour = 60 * 60 * 1000
+    , then = now - (now % hour) + hour;
+
+  setTimeout(window.location.reload.bind(window.location), then - now + 5000);
+
 </script>
 <% include footer.ejs -%>

@@ -72,17 +72,21 @@ HourlyAggregation.track = function(event) {
 
   common.knex('hourly_aggregations')
         .update(updates)
-        .where({
-          action: HourlyAggregation.actions[event.action]
-        })
+        .where('action', HourlyAggregation.actions[event.action])
         .orderBy('start_time', 'desc')
         .limit(1)
         .catch(common.notifyError);
 
-  common.notifySocket(['increments']);
+  var channel = {
+    'create_device': 'device_creates'
+  , 'update_device': 'device_updates'
+  , 'delete_device': 'device_deletes'
+  , 'notify': 'notifications'
+  }[event.action];
+  common.notifySocket('yodel:increments:'+channel, increments);
 
   function increment(column) {
-    increments.pushColumn(column);
+    increments.push(column);
     updates[column] = common.knex.raw('`'+column+'` + 1');
   }
 }
