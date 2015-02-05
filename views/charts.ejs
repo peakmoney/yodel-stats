@@ -107,50 +107,68 @@
     }
   }
 
-  var platformChart = new Chart(document.getElementById("success_chart").getContext("2d")).Line({
-    labels: labels
+  var successChart = newChart({
+    id: "success_chart"
   , datasets: [{
       label: "Successful"
-    , fillColor: "rgba(0,188,140,0.1)"
-    , strokeColor: "rgba(0,188,140,1)"
-    , pointColor: "rgba(0,188,140,1)"
-    , pointStrokeColor: "#fff"
-    , pointHighlightFill: "#fff"
-    , pointHighlightStroke: "rgba(0,188,140,1)"
+    , baseColor: "0,188,140"
     , data: datasets['successful']
-    }, {
+    },{
       label: "Failed"
-    , fillColor: "rgba(231,76,60,0.1)"
-    , strokeColor: "rgba(231,76,60,1)"
-    , pointColor: "rgba(231,76,60,1)"
-    , pointStrokeColor: "#fff"
-    , pointHighlightFill: "#fff"
-    , pointHighlightStroke: "rgba(231,76,60,1)"
+    , baseColor: "231,76,60"
     , data: datasets['failed']
     }]
   });
 
-  var platformChart = new Chart(document.getElementById("platform_chart").getContext("2d")).Line({
-    labels: labels
+  var platformChart = newChart({
+    id: "platform_chart"
   , datasets: [{
       label: "Android"
-    , fillColor: "rgba(243,156,18,0.1)"
-    , strokeColor: "rgba(243,156,18,1)"
-    , pointColor: "rgba(243,156,18,1)"
-    , pointStrokeColor: "#fff"
-    , pointHighlightFill: "#fff"
-    , pointHighlightStroke: "rgba(243,156,18,1)"
+    , baseColor: "243,156,18"
     , data: datasets['android']
-    }, {
+    },{
       label: "iOS"
-    , fillColor: "rgba(52,152,219,0.1)"
-    , strokeColor: "rgba(52,152,219,1)"
-    , pointColor: "rgba(52,152,219,1)"
-    , pointStrokeColor: "#fff"
-    , pointHighlightFill: "#fff"
-    , pointHighlightStroke: "rgba(52,152,219,1)"
+    , baseColor: "52,152,219"
     , data: datasets['ios']
     }]
   });
+
+  function newChart(opts) {
+    var ctx = document.getElementById(opts.id).getContext("2d");
+
+    var data = { labels: labels, datasets: [] };
+    for (var i = 0; i < opts.datasets.length; i++) {
+      var dataset = opts.datasets[i];
+      data['datasets'].push({
+        label: dataset['label']
+      , fillColor: "rgba("+dataset['baseColor']+",0.1)"
+      , strokeColor: "rgba("+dataset['baseColor']+",1)"
+      , pointColor: "rgba("+dataset['baseColor']+",1)"
+      , pointStrokeColor: "#fff"
+      , pointHighlightFill: "#fff"
+      , pointHighlightStroke: "rgba("+dataset['baseColor']+",1)"
+      , data: dataset['data']
+      });
+    }
+
+    var options = {
+      responsive : true
+    , scaleFontFamily: "Lato"
+    , tooltipFillColor: "rgba(30,30,30,0.8)"
+    , tooltipTitleFontColor: "#eee"
+    , tooltipTitleFontFamily: "Lato"
+    , tooltipTitleFontSize: 13
+    , tooltipFontColor: "#eee"
+    , tooltipFontFamily: "Lato"
+    , tooltipFontSize: 12
+    , tooltipCornerRadius: 6
+    , multiTooltipTemplate: "<%- multiTooltipTemplate %>"
+    , tooltipCaretSize: 20
+    , tooltipYPadding: 6
+    , tooltipXPadding: 8
+    };
+
+    return new Chart(ctx).Line(data, options);
+  }
 </script>
 <% include footer.ejs -%>

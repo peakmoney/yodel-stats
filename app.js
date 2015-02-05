@@ -60,37 +60,21 @@ app.all('/logout', function(req, res, next) {
 });
 
 
-app.get('/', function(req, res, next) {
-  HourlyAggregation.getDataForAction('notify', function(err, data) {
-    if (err) { return next(err); }
-    data['pageName'] = 'Notifications';
-    res.render('charts', data);
-  });
-});
+app.get('/', renderCharts('notify', 'Notifications'));
+app.get('/device_creates', renderCharts('create_device', 'Device Creates'));
+app.get('/device_updates', renderCharts('update_device', 'Device Updates'));
+app.get('/device_deletes', renderCharts('delete_device', 'Device Deletes'));
 
-app.get('/device_creates', function(req, res, next) {
-  HourlyAggregation.getDataForAction('create_device', function(err, data) {
-    if (err) { return next(err); }
-    data['pageName'] = 'Device Creates';
-    res.render('charts', data);
-  });
-});
-
-app.get('/device_updates', function(req, res, next) {
-  HourlyAggregation.getDataForAction('update_device', function(err, data) {
-    if (err) { return next(err); }
-    data['pageName'] = 'Device Updates';
-    res.render('charts', data);
-  });
-});
-
-app.get('/device_deletes', function(req, res, next) {
-  HourlyAggregation.getDataForAction('delete_device', function(err, data) {
-    if (err) { return next(err); }
-    data['pageName'] = 'Device Deletes';
-    res.render('charts', data);
-  });
-});
+function renderCharts(action, pageName) {
+  return function(req, res, next) {
+    HourlyAggregation.getDataForAction('notify', function(err, data) {
+      if (err) { return next(err); }
+      data['pageName'] = pageName;
+      data['multiTooltipTemplate'] = "<%= datasetLabel %>: <%= value %>";
+      res.render('charts', data);
+    });
+  }
+};
 
 
 // catch 404 and forward to error handler
