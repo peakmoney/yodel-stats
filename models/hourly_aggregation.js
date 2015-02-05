@@ -1,4 +1,5 @@
-var common = require('../common');
+var common  = require('../common')
+  , Promise = require('bluebird');
 
 var HourlyAggregation = module.exports = {};
 
@@ -16,13 +17,44 @@ HourlyAggregation.actions = {
 
 
 HourlyAggregation.getDataForAction = function(action, callback) {
-  common.knex('hourly_aggregations')
-        .where({
-          action: HourlyAggregation.actions[action]
-        })
-        .orderBy('start_time', 'desc')
-        .limit(12)
-        .exec(callback);
+  var action = HourlyAggregation.actions[action];
+  Promise.join(
+    common.knex('hourly_aggregations')
+          .where('action', action)
+          .orderBy('start_time', 'desc')
+          .limit(12)
+  , common.knex('hourly_aggregations')
+        .sum('total as total')
+        .sum('ios as ios')
+        .sum('android as android')
+        .sum('successful as successful')
+        .sum('failed as failed')
+        .where('action', action)
+        .where('start_time', '>=', daysAgo(1))
+        .first()
+  , common.knex('hourly_aggregations')
+        .sum('total as total')
+        .sum('ios as ios')
+        .sum('android as android')
+        .sum('successful as successful')
+        .sum('failed as failed')
+        .where('action', action)
+        .where('start_time', '>=', daysAgo(30))
+        .first()
+  , function(last12h, sum24h, sum30d) {
+    return callback(null, {last12h: last12h, sum24h: sum24h, sum30d: sum30d});
+  }).catch(function(err) {
+    return callback(err);
+  });
+
+  function daysAgo(n) {
+    var now = new Date()
+      , then = new Date(now.getTime() - (n * 24 * 60 * 60 * 1000));
+    then.setMinutes(0);
+    then.setSeconds(0);
+    then.setMilliseconds(0);
+    return then;
+  }
 }
 
 

@@ -61,30 +61,34 @@ app.all('/logout', function(req, res, next) {
 
 
 app.get('/', function(req, res, next) {
-  HourlyAggregation.getDataForAction('notify', function(err, aggregations) {
+  HourlyAggregation.getDataForAction('notify', function(err, data) {
     if (err) { return next(err); }
-    res.render('charts', { pageName: 'Notifications', aggregations: aggregations });
+    data['pageName'] = 'Notifications';
+    res.render('charts', data);
   });
 });
 
 app.get('/device_creates', function(req, res, next) {
-  HourlyAggregation.getDataForAction('create_device', function(err, aggregations) {
+  HourlyAggregation.getDataForAction('create_device', function(err, data) {
     if (err) { return next(err); }
-    res.render('charts', { pageName: 'Device Creates', aggregations: aggregations });
+    data['pageName'] = 'Device Creates';
+    res.render('charts', data);
   });
 });
 
 app.get('/device_updates', function(req, res, next) {
-  HourlyAggregation.getDataForAction('update_device', function(err, aggregations) {
+  HourlyAggregation.getDataForAction('update_device', function(err, data) {
     if (err) { return next(err); }
-    res.render('charts', { pageName: 'Device Updates', aggregations: aggregations });
+    data['pageName'] = 'Device Updates';
+    res.render('charts', data);
   });
 });
 
 app.get('/device_deletes', function(req, res, next) {
-  HourlyAggregation.getDataForAction('delete_device', function(err, aggregations) {
+  HourlyAggregation.getDataForAction('delete_device', function(err, data) {
     if (err) { return next(err); }
-    res.render('charts', { pageName: 'Device Deletes', aggregations: aggregations });
+    data['pageName'] = 'Device Deletes';
+    res.render('charts', data);
   });
 });
 

@@ -1,8 +1,90 @@
 <% include header.ejs -%>
-<h3 class="chart_title">Success</h3>
-<canvas id="success_chart" width="1000" height="400"></canvas>
+<h3 class="chart_title">Success Rate</h3>
+
+<div class="row overview">
+  <div class="col-md-6">
+    <h4 class="period">24 Hours</h4>
+    <div class="stat col-md-6">
+      <div class="name">Successful</div>
+      <div class="value text-success">
+        <%=(sum24h['successful'] / sum24h['total'] * 100).toPrecision(3)%>%
+        <small><%=sum24h['successful']%></small>
+      </div>
+    </div>
+    <div class="stat col-md-6">
+      <div class="name">Failed</div>
+      <div class="value text-danger">
+        <%=(sum24h['failed'] / sum24h['total'] * 100).toPrecision(3)%>%
+        <small><%=sum24h['failed']%></small>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <h4 class="period">30 Days</h4>
+    <div class="stat col-md-6">
+      <div class="name">Successful</div>
+      <div class="value text-success">
+        <%=(sum30d['successful'] / sum30d['total'] * 100).toPrecision(3)%>%
+        <small><%=sum30d['successful']%></small>
+      </div>
+    </div>
+    <div class="stat col-md-6">
+      <div class="name">Failed</div>
+      <div class="value text-danger">
+        <%=(sum30d['failed'] / sum30d['total'] * 100).toPrecision(3)%>%
+        <small><%=sum30d['failed']%></small>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <canvas id="success_chart" width="1000" height="400"></canvas>
+</div>
+
+<hr style="margin: 20px 0 50px" />
+
 <h3 class="chart_title">Platform</h3>
-<canvas id="platform_chart" width="1000" height="400"></canvas>
+
+<div class="row overview">
+  <div class="col-md-6">
+    <h4 class="period">24 Hours</h4>
+    <div class="stat col-md-6">
+      <div class="name">Android</div>
+      <div class="value text-warning">
+        <%=(sum24h['android'] / sum24h['total'] * 100).toPrecision(3)%>%
+        <small><%=sum24h['android']%></small>
+      </div>
+    </div>
+    <div class="stat col-md-6">
+      <div class="name">iOS</div>
+      <div class="value text-info">
+        <%=(sum24h['ios'] / sum24h['total'] * 100).toPrecision(3)%>%
+        <small><%=sum24h['ios']%></small>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <h4 class="period">30 Days</h4>
+    <div class="stat col-md-6">
+      <div class="name">Android</div>
+      <div class="value text-warning">
+        <%=(sum30d['android'] / sum30d['total'] * 100).toPrecision(3)%>%
+        <small><%=sum30d['android']%></small>
+      </div>
+    </div>
+    <div class="stat col-md-6">
+      <div class="name">iOS</div>
+      <div class="value text-info">
+        <%=(sum30d['ios'] / sum30d['total'] * 100).toPrecision(3)%>%
+        <small><%=sum30d['ios']%></small>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <canvas id="platform_chart" width="1000" height="400"></canvas>
+</div>
 
 <script>
   var labels = []
@@ -14,7 +96,7 @@
     , 'total': []
     };
 
-  var aggregations = <%-JSON.stringify(aggregations)%>
+  var aggregations = <%-JSON.stringify(last12h)%>
     , keys = ['ios', 'android', 'successful', 'failed', 'total'];
 
   for (var i = 0; i < aggregations.length; i++) {
@@ -29,21 +111,21 @@
     labels: labels
   , datasets: [{
       label: "Successful"
-    , fillColor: "rgba(220,220,220,0.2)"
-    , strokeColor: "rgba(220,220,220,1)"
-    , pointColor: "rgba(220,220,220,1)"
+    , fillColor: "rgba(0,188,140,0.1)"
+    , strokeColor: "rgba(0,188,140,1)"
+    , pointColor: "rgba(0,188,140,1)"
     , pointStrokeColor: "#fff"
     , pointHighlightFill: "#fff"
-    , pointHighlightStroke: "rgba(220,220,220,1)"
+    , pointHighlightStroke: "rgba(0,188,140,1)"
     , data: datasets['successful']
     }, {
       label: "Failed"
-    , fillColor: "rgba(151,187,205,0.2)"
-    , strokeColor: "rgba(151,187,205,1)"
-    , pointColor: "rgba(151,187,205,1)"
+    , fillColor: "rgba(231,76,60,0.1)"
+    , strokeColor: "rgba(231,76,60,1)"
+    , pointColor: "rgba(231,76,60,1)"
     , pointStrokeColor: "#fff"
     , pointHighlightFill: "#fff"
-    , pointHighlightStroke: "rgba(151,187,205,1)"
+    , pointHighlightStroke: "rgba(231,76,60,1)"
     , data: datasets['failed']
     }]
   });
@@ -51,23 +133,23 @@
   var platformChart = new Chart(document.getElementById("platform_chart").getContext("2d")).Line({
     labels: labels
   , datasets: [{
-      label: "iOS"
-    , fillColor: "rgba(220,220,220,0.2)"
-    , strokeColor: "rgba(220,220,220,1)"
-    , pointColor: "rgba(220,220,220,1)"
-    , pointStrokeColor: "#fff"
-    , pointHighlightFill: "#fff"
-    , pointHighlightStroke: "rgba(220,220,220,1)"
-    , data: datasets['ios']
-    }, {
       label: "Android"
-    , fillColor: "rgba(151,187,205,0.2)"
-    , strokeColor: "rgba(151,187,205,1)"
-    , pointColor: "rgba(151,187,205,1)"
+    , fillColor: "rgba(243,156,18,0.1)"
+    , strokeColor: "rgba(243,156,18,1)"
+    , pointColor: "rgba(243,156,18,1)"
     , pointStrokeColor: "#fff"
     , pointHighlightFill: "#fff"
-    , pointHighlightStroke: "rgba(151,187,205,1)"
+    , pointHighlightStroke: "rgba(243,156,18,1)"
     , data: datasets['android']
+    }, {
+      label: "iOS"
+    , fillColor: "rgba(52,152,219,0.1)"
+    , strokeColor: "rgba(52,152,219,1)"
+    , pointColor: "rgba(52,152,219,1)"
+    , pointStrokeColor: "#fff"
+    , pointHighlightFill: "#fff"
+    , pointHighlightStroke: "rgba(52,152,219,1)"
+    , data: datasets['ios']
     }]
   });
 </script>
