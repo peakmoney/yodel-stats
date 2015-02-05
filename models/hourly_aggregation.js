@@ -66,6 +66,7 @@ HourlyAggregation.track = function(event) {
     increment('android');
   }
   increment(event.successful ? 'successful' : 'failed');
+  increment('total');
 
   common.knex('hourly_aggregations')
         .update(updates)
