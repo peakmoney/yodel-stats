@@ -1,22 +1,59 @@
 body {
   padding: 0;
+  background: #1D2022;
+}
+
+.navbar-brand {
+  padding: 11px 16px 11px 6px;
+}
+
+.navbar-fixed-top {
+  min-height: 70px;
+}
+
+.navbar-nav > li > a {
+  padding-top: 0px;
+  padding-bottom: 0px;
+  line-height: 70px;
+}
+
+.navbar-inverse {
+  background-color: #45606E;
+  .navbar-nav>li>a:hover {
+    color: #52DAA0;
+  }
+  .navbar-nav>.active>a, .navbar-nav>.active>a:hover, .navbar-nav>.active>a:focus {
+    background-color: darken(#45606E, 5%);
+  }
+  .navbar-toggle {
+    margin-top: 19px;
+    border: none;
+    border-color: transparent;
+    &:hover {
+      background-color: darken(#45606E, 5%);
+    }
+  }
+  .btn {
+    margin-top: 12.5px;
+  }
+}
+
+
+.btn-primary {
+  background: #3b525e;
+  &:hover {
+    background: darken(#3b525e, 5%);
+  }
 }
 
 .jumbotron {
-  padding: 80px 0 40px;
+  padding: 80px 0 35px;
+  background: #262D30;
 }
 
 .chart_title {
   margin: 20px 0;
   text-align: center;
-}
-
-canvas {
-  width: 100% !important;
-  max-width: 1000px;
-  height: auto !important;
-  margin: 0 auto 50px;
-  display: block;
 }
 
 .overview {
@@ -31,6 +68,11 @@ canvas {
     font-size: 20px;
     font-weight: bold;
   }
+  .successful .percent { color: #52daa0; }
+  .failed .percent { color: #fe6a53; }
+  .android .percent { color: #52daa0; }
+  .ios .percent { color: #9876ff; }
+
   .total {
     font-weight: normal;
     font-size: 12px;

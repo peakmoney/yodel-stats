@@ -4,27 +4,27 @@
 <div class="row overview">
   <div class="col-md-6">
     <h4 class="period">24 Hours</h4>
-    <div class="stat successful24h col-md-6">
+    <div class="stat successful successful24h col-md-6">
       <div class="name">Successful</div>
-      <div class="percent text-success"></div>
+      <div class="percent"></div>
       <div class="total"><%=sum24h['successful']%></div>
     </div>
-    <div class="stat failed24h col-md-6">
+    <div class="stat failed failed24h col-md-6">
       <div class="name">Failed</div>
-      <div class="percent text-danger"></div>
+      <div class="percent"></div>
       <div class="total"><%=sum24h['failed']%></div>
     </div>
   </div>
   <div class="col-md-6">
     <h4 class="period">30 Days</h4>
-    <div class="stat successful30d col-md-6">
+    <div class="stat successful successful30d col-md-6">
       <div class="name">Successful</div>
-      <div class="percent text-success"></div>
+      <div class="percent"></div>
       <div class="total"></div>
     </div>
-    <div class="stat failed30d col-md-6">
+    <div class="stat successful failed failed30d col-md-6">
       <div class="name">Failed</div>
-      <div class="percent text-danger"></div>
+      <div class="percent"></div>
       <div class="total"></div>
     </div>
   </div>
@@ -40,27 +40,27 @@
 <div class="row overview">
   <div class="col-md-6">
     <h4 class="period">24 Hours</h4>
-    <div class="stat android24h col-md-6">
+    <div class="stat android android24h col-md-6">
       <div class="name">Android</div>
-      <div class="percent text-warning"></div>
+      <div class="percent"></div>
       <div class="total"></div>
     </div>
-    <div class="stat ios24h col-md-6">
+    <div class="stat ios ios24h col-md-6">
       <div class="name">iOS</div>
-      <div class="percent text-info"></div>
+      <div class="percent"></div>
       <div class="total"></div>
     </div>
   </div>
   <div class="col-md-6">
     <h4 class="period">30 Days</h4>
-    <div class="stat android30d col-md-6">
+    <div class="stat android android30d col-md-6">
       <div class="name">Android</div>
-      <div class="percent text-warning"></div>
+      <div class="percent"></div>
       <div class="total"></div>
     </div>
-    <div class="stat ios30d col-md-6">
+    <div class="stat ios ios30d col-md-6">
       <div class="name">iOS</div>
-      <div class="percent text-info"></div>
+      <div class="percent"></div>
       <div class="total"></div>
     </div>
   </div>
@@ -140,11 +140,11 @@
         id: "success_chart"
       , datasets: [{
           label: "Successful"
-        , baseColor: "0,188,140"
+        , baseColor: "82,218,160"
         , data: datasets['successful']
         },{
           label: "Failed"
-        , baseColor: "231,76,60"
+        , baseColor: "254,106,83"
         , data: datasets['failed']
         }]
       });
@@ -153,11 +153,11 @@
         id: "platform_chart"
       , datasets: [{
           label: "Android"
-        , baseColor: "243,156,18"
+        , baseColor: "82,218,160"
         , data: datasets['android']
         },{
           label: "iOS"
-        , baseColor: "52,152,219"
+        , baseColor: "152,118,255"
         , data: datasets['ios']
         }]
       });
