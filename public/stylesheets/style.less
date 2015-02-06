@@ -1,6 +1,6 @@
 body {
   padding: 0;
-  background: #1D2022;
+  background: #364E5A;
 }
 
 .navbar-brand {
@@ -49,11 +49,6 @@ body {
   }
 }
 
-.jumbotron {
-  padding: 80px 0 35px;
-  background: #262D30;
-}
-
 .chart_title {
   margin: 20px 0;
   text-align: center;
@@ -62,10 +57,10 @@ body {
 .overview {
   text-align: center;
   .period {
-    color: #aaa;
+    color: rgba(255,255,255,0.7);
   }
   .name {
-    color: #ccc;
+    color: rgba(255,255,255,0.7);
   }
   .percent {
     font-size: 20px;
@@ -73,12 +68,17 @@ body {
   }
   .successful .percent { color: #52daa0; }
   .failed .percent { color: #fe6a53; }
-  .android .percent { color: #52daa0; }
+  .android .percent { color: #A7FFF6; }
   .ios .percent { color: #9876ff; }
 
   .total {
     font-weight: normal;
     font-size: 12px;
-    color: #aaa;
+    color: rgba(255,255,255,0.5);
   }
+}
+
+.divider {
+  margin: 60px 0;
+  border-color: rgba(255,255,255,0.1);
 }

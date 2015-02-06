@@ -1,5 +1,5 @@
 <% include header.ejs -%>
-<h3 class="chart_title">Success Rate</h3>
+<h3 class="chart_title" style="margin-top: 120px">Success Rate</h3>
 
 <div class="row overview">
   <div class="col-md-6">
@@ -33,7 +33,7 @@
   <canvas id="success_chart" width="1000" height="400"></canvas>
 </div>
 
-<hr style="margin: 50px 0" />
+<hr class="divider" />
 
 <h3 class="chart_title">Platform</h3>
 
@@ -153,7 +153,7 @@
         id: "platform_chart"
       , datasets: [{
           label: "Android"
-        , baseColor: "82,218,160"
+        , baseColor: "167,255,246"
         , data: datasets['android']
         },{
           label: "iOS"
@@ -185,7 +185,8 @@
       var options = {
         responsive : true
       , scaleFontFamily: "Lato"
-      , tooltipFillColor: "rgba(30,30,30,0.8)"
+      , scaleFontColor: "rgba(255,255,255,0.5)"
+      , tooltipFillColor: "rgba(46,59,66,0.8)"
       , tooltipTitleFontColor: "#eee"
       , tooltipTitleFontFamily: "Lato"
       , tooltipTitleFontSize: 13
